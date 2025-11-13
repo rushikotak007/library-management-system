@@ -1,26 +1,303 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* =========================================
+   🌙 Dark Mode Variant
+========================================= */
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================
+   📱 Breakpoints
+========================================= */
+@theme {
+  --breakpoint-xs: 30rem; /* 480px */
+  --breakpoint-sm: 40rem; /* 640px */
+  --breakpoint-md: 48rem; /* 768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+  --breakpoint-2xl: 96rem; /* 1536px */
 }
 
+/* =========================================
+   🎨 Design Tokens
+========================================= */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-ibm-plex-sans: "IBM Plex Sans", sans-serif;
+  --font-bebas-neue: "Bebas Neue", sans-serif;
+
+  --color-primary: #e7c9a5;
+  --color-primary-admin: #25388c;
+
+  --color-dark-100: #16191e;
+  --color-dark-200: #3a354e;
+  --color-dark-300: #232839;
+  --color-dark-400: #1e293b;
+  --color-dark-500: #0f172a;
+  --color-dark-600: #333c5c;
+  --color-dark-700: #464f6f;
+  --color-dark-800: #1e2230;
+
+  --color-light-100: #d6e0ff;
+  --color-light-200: #eed1ac;
+  --color-light-300: #f8f8ff;
+  --color-light-400: #edf1f1;
+  --color-light-500: #8d8d8d;
+  --color-light-600: #f9fafb;
+  --color-light-700: #e2e8f0;
+  --color-light-800: #f8fafc;
+
+  --color-red-400: #f46f70;
+  --color-red-500: #e27233;
+  --color-red-800: #ef3a4b;
+  --color-green-500: #2cc171;
+  --color-blue-100: #0089f1;
+
+  --border: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+  --radius: 0.625rem;
+  --bg-pattern: url("/images/pattern.webp");
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* =========================================
+   🌞 Light Theme
+========================================= */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --primary: var(--color-primary);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --accent: oklch(0.968 0.007 247.896);
+  --accent-foreground: oklch(0.208 0.042 265.755);
+}
+
+/* =========================================
+   🌙 Dark Theme
+========================================= */
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --primary: var(--color-primary);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+}
+
+/* =========================================
+   🧱 Base Styles
+========================================= */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-ibm-plex-sans);
+    margin: 0;
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 2px solid oklch(0.704 0.04 256.788);
+    outline-offset: 2px;
+  }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* =========================================
+   ⚙️ Components
+========================================= */
+
+/* --- Form --- */
+.form-btn {
+  @apply inline-flex min-h-14 w-full items-center justify-center rounded-md px-6 py-2 font-bold text-base;
+  background-color: var(--color-primary);
+  color: var(--color-dark-100);
+  transition: opacity 0.2s ease;
+}
+form-btn:hover {
+  opacity: 0.9;
+}
+
+.form-input {
+  @apply w-full min-h-14 border-none text-base font-bold placeholder:font-normal focus-visible:ring-0;
+  background-color: var(--color-dark-300);
+  color: white;
+}
+
+/* --- Book Cards --- */
+.book-title {
+  @apply mt-2 line-clamp-1 text-base font-semibold text-white xs:text-xl;
+}
+.book-genre {
+  @apply mt-1 line-clamp-1 text-sm italic text-light-100 xs:text-base;
+}
+.book-btn {
+  @apply mt-3 min-h-14 w-full font-bebas-neue text-base;
+  background-color: var(--color-dark-600);
+  color: var(--color-primary);
+}
+.borrowed-book {
+  @apply p-5 rounded-2xl w-full relative xs:w-min;
+  background: linear-gradient(180deg, #12141d 0%, #12151f 100%);
+}
+
+/* --- Book Overview --- */
+.book-overview {
+  @apply flex flex-col-reverse items-center gap-12 sm:gap-32 xl:flex-row xl:gap-8;
+}
+.book-overview_btn {
+  @apply mt-4 min-h-14 w-fit text-dark-100 font-bold max-md:w-full;
+  background-color: var(--color-primary);
+}
+book-overview_btn:hover {
+  opacity: 0.95;
+}
+
+.book-info {
+  @apply mt-7 flex flex-row flex-wrap gap-4 text-xl text-light-100;
+}
+.book-copies {
+  @apply flex flex-row flex-wrap gap-4 mt-1;
+}
+book-copies p {
+  @apply text-xl text-light-100;
+}
+book-copies p span {
+  @apply ml-2 font-semibold text-primary;
+}
+
+.book-description {
+  @apply mt-2 text-justify text-xl text-light-100;
+}
+
+.book-loaned {
+    @apply flex flex-row items-center gap-1 max-xs:justify-center;
+  }
+
+.book-list {
+    @apply mt-10 flex flex-wrap gap-5 max-xs:justify-between xs:gap-10;
+  }
+
+/* --- Book Covers --- */
+.book-cover_extra_small {
+  @apply w-[28.95px] h-10;
+}
+
+.book-cover_small {
+  @apply w-[55px] h-[76px];
+}
+
+.book-cover_medium {
+  @apply w-[144px] h-[199px];
+}
+
+.book-cover_regular {
+  @apply xs:w-[174px] w-[114px] xs:h-[239px] h-[169px];
+}
+
+.book-cover_wide {
+  @apply xs:w-[296px] w-[256px] xs:h-[404px] h-[354px];
+}
+
+/* --- Upload --- */
+.upload-btn {
+  @apply flex min-h-14 w-full items-center justify-center gap-1.5 rounded-md;
+}
+.upload-filename {
+  @apply mt-1 text-center text-xs;
+}
+.progress {
+  @apply rounded-full bg-green-800 p-0.5 text-center font-bebas-neue text-[8px] font-bold leading-none text-light-100;
+}
+
+/* --- Search --- */
+.search {
+  @apply relative mt-10 flex min-h-14 w-full items-center rounded-xl bg-dark-300 px-4;
+}
+.search-input {
+  @apply w-full border-none font-bold placeholder:font-normal text-white placeholder:text-light-100 focus-visible:ring-0 focus-visible:shadow-none;
+}
+
+/* --- Pagination --- */
+.pagination-btn-light {
+  @apply bg-light-300 text-dark-300 hover:bg-light-300/70;
+}
+.pagination-btn-dark {
+  @apply bg-dark-300 hover:bg-dark-100;
+}
+
+/* --- Not Found --- */
+.not-found {
+  @apply flex justify-center items-center flex-col text-center w-full;
+}
+.not-found-btn {
+  @apply bg-primary font-bebas-neue min-w-[360px] mt-6 text-dark-100 text-xl hover:bg-primary/90 min-h-12;
+}
+
+/* =========================================
+   🧩 Utilities
+========================================= */
+@utility gradient-vertical {
+  background: linear-gradient(180deg, #12141d 0%, #12151f 100%);
+}
+@utility gradient-blue {
+  background: linear-gradient(180deg, #232839 0%, #12141d 100%);
+}
+@utility gradient-gray {
+  background: linear-gradient(270deg, #37363a 0%, #353637 100%);
+}
+
+/* --- Auth --- */
+@utility auth-container {
+  @apply relative flex flex-col-reverse text-light-100 sm:flex-row;
+}
+@utility auth-form {
+  @apply my-auto flex h-full min-h-screen flex-1 items-center px-5 py-10 bg-cover bg-top;
+  background-color: var(--color-dark-100);
+  background-image: var(--bg-pattern);
+}
+@utility auth-box {
+  @apply mx-auto max-w-xl flex flex-col gap-6 rounded-lg p-10;
+  background: linear-gradient(180deg, #12141d 0%, #12151f 100%);
+}
+@utility auth-illustration {
+  @apply sticky h-40 w-full sm:top-0 sm:h-screen sm:flex-1;
+}
+
+/* --- Root Container --- */
+@utility root-container {
+  @apply flex min-h-screen flex-1 flex-col bg-cover bg-top px-5 xs:px-10 md:px-16;
+  background-color: var(--color-dark-100);
+  background-image: var(--bg-pattern);
+}
+
+/* --- Book Details & Library --- */
+@utility book-details {
+  @apply lg:mt-36 mt-16 mb-20 flex flex-col gap-16 lg:flex-row;
+}
+@utility library {
+  @apply mx-auto flex max-w-xl w-full flex-col text-center;
+}
+@utility library-subtitle {
+  @apply text-lg font-semibold uppercase text-light-100;
+}
+@utility library-title {
+  @apply mt-2 text-3xl font-semibold text-white xs:text-5xl;
 }
