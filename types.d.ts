@@ -11,6 +11,16 @@ interface Book {
   cover: string;
   video: string;
   summary: string;
-  isBorrowed: boolean;
+  isBorrowed?: boolean;
   isLoanedBook?: boolean;
+}
+
+
+export interface AuthCredentials {
+  fullName: string;
+  email: string;
+  password: string;
+  universityId: number;
+  universityCard: string;
+  
 }

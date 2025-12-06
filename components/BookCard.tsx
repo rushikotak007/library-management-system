@@ -4,6 +4,8 @@ import BookCover from "./BookCover";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 
+import { Book } from "@/types";
+
 const BookCard = ({
   id,
   title,

@@ -2,6 +2,7 @@
 
 
 import AuthForm from "@/components/AuthForm";
+import { signUp } from "@/lib/actions/auth";
 import { SignUpSchema } from "@/lib/validations";
 
 const SignUpPage = () => {
@@ -10,7 +11,7 @@ const SignUpPage = () => {
       type="SIGN_UP"
       schema={SignUpSchema}
       defaultValues={{ fullName: "", email: "", universityId: 0, universityCard: "", password: "" }}
-      onSubmit={() => {}}
+      onSubmit={signUp}
     />
   );
 };
