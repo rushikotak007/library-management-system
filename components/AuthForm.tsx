@@ -1,7 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { DefaultValues, FieldValues, Path, SubmitHandler, useForm, UseFormReturn } from "react-hook-form"
+import { DefaultValues, FieldValues, Path, SubmitHandler, useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { ZodType } from "zod"
+import { ZodObject, ZodRawShape } from "zod"
 import Link from "next/link"
 
 import { FIELD_NAMES, FIELD_TYPES } from "@/constants"
@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation"
 
 interface Props<T extends FieldValues> {
   type: "SIGN_IN" | "SIGN_UP"
-  schema: ZodType<T>
+  schema: ZodObject<ZodRawShape>
   defaultValues: T
   onSubmit: (data: T) => Promise<{ success: boolean; error?: string }>
 }
@@ -36,10 +36,11 @@ const AuthForm = <T extends FieldValues>({
   const router = useRouter()
   const isSignIn = type === "SIGN_IN"
 
-  const form: UseFormReturn<T> = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: defaultValues as DefaultValues<T>,
-  })
+ const form = useForm<T>({
+  resolver: zodResolver(schema) as any,
+  defaultValues: defaultValues as DefaultValues<T>,
+})
+
 
   const handleSubmit: SubmitHandler<T> = async (data) => {
     const result = await onSubmit(data)
