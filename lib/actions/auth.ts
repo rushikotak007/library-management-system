@@ -17,8 +17,21 @@ export const signInWithCredentials = async (
 ) => {
   const { email, password } = params;
 
-  const ip = (await headers()).get("x-forwarded-for") || "127.0.0.1";
-  const { success } = await ratelimit.limit(ip);
+  let success = true;
+
+try {
+  const ip =
+    (await headers()).get("x-forwarded-for") ?? "127.0.0.1";
+  const res = await ratelimit.limit(ip);
+  success = res.success;
+} catch (err) {
+  console.error("Rate limit failed:", err);
+}
+
+if (!success) {
+  redirect("/too-fast");
+}
+
 
   if (!success) {
     return redirect("/too-fast");
