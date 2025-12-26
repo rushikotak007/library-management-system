@@ -25,7 +25,7 @@ interface ImageKitAuthResponse {
 // Authenticator
 // -----------------------------
 const authenticator = async (): Promise<ImageKitAuthResponse> => {
-  const res = await fetch(`${config.apiEndpoint}/api/upload-image`);
+  const res = await fetch(`${config.env.apiEndpoint}/api/upload-image`);
   if (!res.ok) throw new Error("ImageKit Auth failed");
   return res.json();
 };
