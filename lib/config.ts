@@ -1,5 +1,6 @@
 const config = {
-    apiUrl : process.env.NEXT_PUBLIC_API_ENDPOINT!,
+    apiEndpoint : process.env.NEXT_PUBLIC_API_ENDPOINT!,
+    ProdApiEndpoint : process.env.NEXT_PUBLIC_PROD_API_ENDPOINT!,
     env:{
         imagekit:{
             publicKey : process.env.NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY!,
